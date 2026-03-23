@@ -1240,7 +1240,7 @@ if /i "%fileExt%" == "wim" (
 
 :: Step 7: Get the number of images in the Install WIM file
 for /L %%A IN (1, 1, 25) Do (
-dism /Get-WimInfo /WimFile:"Work\sources\%WIMFILE%" /index:%%A > %CD%\TEMP\%%A
+dism /english /Get-WimInfo /WimFile:"Work\sources\%WIMFILE%" /index:%%A > %CD%\TEMP\%%A
 timeout 0 >nul
 Find /i "Error:" "%CD%\TEMP\%%A" > nul && (
      set "Index=%%A"
@@ -1264,7 +1264,7 @@ echo Number of images detected in install.wim: %INSTALL_IMAGE_COUNT% | "%_tee%" 
 
 :: Step 8: Get the number of images in the Boot WIM file
 for /L %%A IN (1, 1, 25) Do (
-dism /Get-WimInfo /WimFile:"Work\sources\%BOOTFILE%" /index:%%A > %CD%\TEMP\%%A
+dism /english /Get-WimInfo /WimFile:"Work\sources\%BOOTFILE%" /index:%%A > %CD%\TEMP\%%A
 timeout 0 >nul
 Find /i "Error:" "%CD%\TEMP\%%A" > nul && (
      set "Index=%%A"
@@ -1430,7 +1430,7 @@ ECHO Converting ESD to WIM | "%_tee%" -a "%LOG_FILE%"
 ECHO ============================================================= | "%_tee%" -a "%LOG_FILE%"
 ECHO. | "%_tee%" -a "%LOG_FILE%"
 :: Get total images in the ESD file
-for /f "tokens=3" %%I in ('dism /Get-WimInfo /WimFile:"%sourceEsd%" ^| find "Index"') do (
+for /f "tokens=3" %%I in ('dism /english /Get-WimInfo /WimFile:"%sourceEsd%" ^| find "Index"') do (
     set "lastIndex=%%I"
 )
 
@@ -1481,7 +1481,7 @@ if %TotalMemoryInt% geq 15 (
     ECHO ============================================================= | "%_tee%" -a "%LOG_FILE%"
     ECHO. | "%_tee%" -a "%LOG_FILE%"
     :: Get total images in the WIM file
-    for /f "tokens=3" %%I in ('dism /Get-WimInfo /WimFile:"%sourceWim%" ^| find "Index"') do (
+    for /f "tokens=3" %%I in ('dism /english /Get-WimInfo /WimFile:"%sourceWim%" ^| find "Index"') do (
         set "lastIndex=%%I"
     )
     
@@ -1531,7 +1531,7 @@ ECHO Converting SWM to WIM... | "%_tee%" -a "%LOG_FILE%"
 ECHO ============================================================= | "%_tee%" -a "%LOG_FILE%"
 ECHO. | "%_tee%" -a "%LOG_FILE%"
 :: Get total images in the SWM file
-for /f "tokens=3" %%I in ('dism /Get-WimInfo /WimFile:"%sourceSwm%" ^| find "Index"') do (
+for /f "tokens=3" %%I in ('dism /english /Get-WimInfo /WimFile:"%sourceSwm%" ^| find "Index"') do (
     set "lastIndex=%%I"
 )
 
@@ -1631,7 +1631,7 @@ if /i "%fileExt%" == "wim" (
 
 :: Step 3: Get the number of images in the Install WIM file
 for /L %%A IN (1, 1, 25) Do (
-dism /Get-WimInfo /WimFile:"Work\sources\%WIMFILE%" /index:%%A > %CD%\TEMP\%%A
+dism /english /Get-WimInfo /WimFile:"Work\sources\%WIMFILE%" /index:%%A > %CD%\TEMP\%%A
 timeout 0 >nul
 Find /i "Error:" "%CD%\TEMP\%%A" > nul && (
      set "Index=%%A"
@@ -1729,7 +1729,7 @@ if /i "%fileExt%" == "wim" (
 
 :: Step 3: Get the number of images in the Install WIM file
 for /L %%A IN (1, 1, 25) Do (
-dism /Get-WimInfo /WimFile:"Work\sources\%WIMFILE%" /index:%%A > %CD%\TEMP\%%A
+dism /english /Get-WimInfo /WimFile:"Work\sources\%WIMFILE%" /index:%%A > %CD%\TEMP\%%A
 timeout 0 >nul
 Find /i "Error:" "%CD%\TEMP\%%A" > nul && (
      set "Index=%%A"
@@ -1776,7 +1776,7 @@ rem Get drive letter of path
 for /f "tokens=1 delims=\" %%a in ("%fullPath%") do set "drive=%%a"
 
 rem Run the dism command and capture its output
-for /f "tokens=3 delims=:" %%A in ('dism /Get-MountedWimInfo ^| findstr /i "Mount Dir"') do (
+for /f "tokens=3 delims=:" %%A in ('dism /english /Get-MountedWimInfo ^| findstr /i "Mount Dir"') do (
     rem Remove leading and trailing spaces from the extracted value
     for /f "tokens=*" %%B in ("%%A") do (
         set "mountDir=%%B"
@@ -1882,7 +1882,7 @@ if /i "%fileExt%" == "wim" (
 
 :: Step 3: Get the number of images in the Install WIM file
 for /L %%A IN (1, 1, 25) Do (
-dism /Get-WimInfo /WimFile:"Work\sources\%WIMFILE%" /index:%%A > %CD%\TEMP\%%A
+dism /english /Get-WimInfo /WimFile:"Work\sources\%WIMFILE%" /index:%%A > %CD%\TEMP\%%A
 timeout 0 >nul
 Find /i "Error:" "%CD%\TEMP\%%A" > nul && (
      set "Index=%%A"
