@@ -1471,7 +1471,7 @@ set "destinationEsd=%2"
 for /f %%a in ('powershell -Command "(Get-WmiObject -Class Win32_ComputerSystem).TotalPhysicalMemory / 1Gb"') do set "TotalMemory=%%a"
 
 :: Extract the integer from the memory value
-for /F "tokens=1 delims=." %%A in ("%TotalMemory%") do set TotalMemoryInt=%%A
+for /F "tokens=1 delims=.," %%A in ("%TotalMemory%") do set TotalMemoryInt=%%A
 
 :: Check if the system has 15GB or more of RAM (nominal 16)
 if %TotalMemoryInt% geq 15 (
