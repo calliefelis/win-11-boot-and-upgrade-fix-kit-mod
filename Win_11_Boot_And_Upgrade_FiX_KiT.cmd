@@ -1240,7 +1240,7 @@ if /i "%fileExt%" == "wim" (
 
 :: Step 7: Get the number of images in the Install WIM file
 for /L %%A IN (1, 1, 25) Do (
-dism /Get-WimInfo /WimFile:"Work\sources\%WIMFILE%" /index:%%A > %CD%\TEMP\%%A
+dism /english /Get-WimInfo /WimFile:"Work\sources\%WIMFILE%" /index:%%A > %CD%\TEMP\%%A
 timeout 0 >nul
 Find /i "Error:" "%CD%\TEMP\%%A" > nul && (
      set "Index=%%A"
@@ -1264,7 +1264,7 @@ echo Number of images detected in install.wim: %INSTALL_IMAGE_COUNT% | "%_tee%" 
 
 :: Step 8: Get the number of images in the Boot WIM file
 for /L %%A IN (1, 1, 25) Do (
-dism /Get-WimInfo /WimFile:"Work\sources\%BOOTFILE%" /index:%%A > %CD%\TEMP\%%A
+dism /english /Get-WimInfo /WimFile:"Work\sources\%BOOTFILE%" /index:%%A > %CD%\TEMP\%%A
 timeout 0 >nul
 Find /i "Error:" "%CD%\TEMP\%%A" > nul && (
      set "Index=%%A"
@@ -1430,7 +1430,7 @@ ECHO Converting ESD to WIM | "%_tee%" -a "%LOG_FILE%"
 ECHO ============================================================= | "%_tee%" -a "%LOG_FILE%"
 ECHO. | "%_tee%" -a "%LOG_FILE%"
 :: Get total images in the ESD file
-for /f "tokens=3" %%I in ('dism /Get-WimInfo /WimFile:"%sourceEsd%" ^| find "Index"') do (
+for /f "tokens=3" %%I in ('dism /english /Get-WimInfo /WimFile:"%sourceEsd%" ^| find "Index"') do (
     set "lastIndex=%%I"
 )
 
@@ -1471,7 +1471,7 @@ set "destinationEsd=%2"
 for /f %%a in ('powershell -Command "(Get-WmiObject -Class Win32_ComputerSystem).TotalPhysicalMemory / 1Gb"') do set "TotalMemory=%%a"
 
 :: Extract the integer from the memory value
-for /F "tokens=1 delims=." %%A in ("%TotalMemory%") do set TotalMemoryInt=%%A
+for /F "tokens=1 delims=.," %%A in ("%TotalMemory%") do set TotalMemoryInt=%%A
 
 :: Check if the system has 15GB or more of RAM (nominal 16)
 if %TotalMemoryInt% geq 15 (
@@ -1481,7 +1481,7 @@ if %TotalMemoryInt% geq 15 (
     ECHO ============================================================= | "%_tee%" -a "%LOG_FILE%"
     ECHO. | "%_tee%" -a "%LOG_FILE%"
     :: Get total images in the WIM file
-    for /f "tokens=3" %%I in ('dism /Get-WimInfo /WimFile:"%sourceWim%" ^| find "Index"') do (
+    for /f "tokens=3" %%I in ('dism /english /Get-WimInfo /WimFile:"%sourceWim%" ^| find "Index"') do (
         set "lastIndex=%%I"
     )
     
@@ -1531,7 +1531,7 @@ ECHO Converting SWM to WIM... | "%_tee%" -a "%LOG_FILE%"
 ECHO ============================================================= | "%_tee%" -a "%LOG_FILE%"
 ECHO. | "%_tee%" -a "%LOG_FILE%"
 :: Get total images in the SWM file
-for /f "tokens=3" %%I in ('dism /Get-WimInfo /WimFile:"%sourceSwm%" ^| find "Index"') do (
+for /f "tokens=3" %%I in ('dism /english /Get-WimInfo /WimFile:"%sourceSwm%" ^| find "Index"') do (
     set "lastIndex=%%I"
 )
 
@@ -1631,7 +1631,7 @@ if /i "%fileExt%" == "wim" (
 
 :: Step 3: Get the number of images in the Install WIM file
 for /L %%A IN (1, 1, 25) Do (
-dism /Get-WimInfo /WimFile:"Work\sources\%WIMFILE%" /index:%%A > %CD%\TEMP\%%A
+dism /english /Get-WimInfo /WimFile:"Work\sources\%WIMFILE%" /index:%%A > %CD%\TEMP\%%A
 timeout 0 >nul
 Find /i "Error:" "%CD%\TEMP\%%A" > nul && (
      set "Index=%%A"
@@ -1654,6 +1654,7 @@ for /L %%A in (1, 1, %Index%) do (
 echo Number of images detected in install.wim: %INSTALL_IMAGE_COUNT% | "%_tee%" -a "%LOG_FILE%"
 
 :: Step 4: Loop through each image in install and modify registry
+SET "ACF=HKLM\MDL_Test\ControlSet001\Control\BitLocker"
 for /L %%i in (1,1,%INSTALL_IMAGE_COUNT%) do (
 	%_wimlib% extract "WORK\sources\install.wim" %%i \Windows\System32\config\SYSTEM --no-acls --no-attributes --dest-dir="TEMP" | "%_tee%" -a "%LOG_FILE%"
 
@@ -1662,7 +1663,6 @@ for /L %%i in (1,1,%INSTALL_IMAGE_COUNT%) do (
     ECHO Adding PreventDeviceEncryption registry to image %%i: | "%_tee%" -a "%LOG_FILE%"
 	ECHO ============================================================= | "%_tee%" -a "%LOG_FILE%"
 	ECHO. | "%_tee%" -a "%LOG_FILE%"
-    SET "ACF=HKLM\MDL_Test\ControlSet001\Control\BitLocker"
     Reg.exe load HKLM\MDL_Test "TEMP\SYSTEM" | "%_tee%" -a "%LOG_FILE%"
     Reg.exe add "%ACF%\HwReqChk" /v PreventDeviceEncryption /t REG_DWORD /d 1 /f | "%_tee%" -a "%LOG_FILE%"
     Reg.exe unload HKLM\MDL_Test | "%_tee%" -a "%LOG_FILE%"
@@ -1729,7 +1729,7 @@ if /i "%fileExt%" == "wim" (
 
 :: Step 3: Get the number of images in the Install WIM file
 for /L %%A IN (1, 1, 25) Do (
-dism /Get-WimInfo /WimFile:"Work\sources\%WIMFILE%" /index:%%A > %CD%\TEMP\%%A
+dism /english /Get-WimInfo /WimFile:"Work\sources\%WIMFILE%" /index:%%A > %CD%\TEMP\%%A
 timeout 0 >nul
 Find /i "Error:" "%CD%\TEMP\%%A" > nul && (
      set "Index=%%A"
@@ -1752,6 +1752,7 @@ for /L %%A in (1, 1, %Index%) do (
 echo Number of images detected in install.wim: %INSTALL_IMAGE_COUNT% | "%_tee%" -a "%LOG_FILE%"
 
 :: Step 4: Loop through each image in install and modify registry
+SET "ACF=HKLM\MDL_Test\Microsoft\Windows\CurrentVersion"
 for /L %%i in (1,1,%INSTALL_IMAGE_COUNT%) do (
 	%_wimlib% extract "WORK\sources\install.wim" %%i \Windows\System32\config\SOFTWARE --no-acls --no-attributes --dest-dir="TEMP" | "%_tee%" -a "%LOG_FILE%"
 
@@ -1760,7 +1761,6 @@ for /L %%i in (1,1,%INSTALL_IMAGE_COUNT%) do (
     ECHO Adding BypassNRO registry to image %%i: | "%_tee%" -a "%LOG_FILE%"
 	ECHO ============================================================= | "%_tee%" -a "%LOG_FILE%"
 	ECHO. | "%_tee%" -a "%LOG_FILE%"
-	SET "ACF=HKLM\MDL_Test\Microsoft\Windows\CurrentVersion"
     Reg.exe load HKLM\MDL_Test "TEMP\SOFTWARE" | "%_tee%" -a "%LOG_FILE%"
 	Reg.exe add "%ACF%\OOBE" /v BypassNRO /t REG_DWORD /d 1 /f | "%_tee%" -a "%LOG_FILE%"
     Reg.exe unload HKLM\MDL_Test | "%_tee%" -a "%LOG_FILE%"
@@ -1776,7 +1776,7 @@ rem Get drive letter of path
 for /f "tokens=1 delims=\" %%a in ("%fullPath%") do set "drive=%%a"
 
 rem Run the dism command and capture its output
-for /f "tokens=3 delims=:" %%A in ('dism /Get-MountedWimInfo ^| findstr /i "Mount Dir"') do (
+for /f "tokens=3 delims=:" %%A in ('dism /english /Get-MountedWimInfo ^| findstr /i "Mount Dir"') do (
     rem Remove leading and trailing spaces from the extracted value
     for /f "tokens=*" %%B in ("%%A") do (
         set "mountDir=%%B"
@@ -1882,7 +1882,7 @@ if /i "%fileExt%" == "wim" (
 
 :: Step 3: Get the number of images in the Install WIM file
 for /L %%A IN (1, 1, 25) Do (
-dism /Get-WimInfo /WimFile:"Work\sources\%WIMFILE%" /index:%%A > %CD%\TEMP\%%A
+dism /english /Get-WimInfo /WimFile:"Work\sources\%WIMFILE%" /index:%%A > %CD%\TEMP\%%A
 timeout 0 >nul
 Find /i "Error:" "%CD%\TEMP\%%A" > nul && (
      set "Index=%%A"
@@ -1905,6 +1905,7 @@ for /L %%A in (1, 1, %Index%) do (
 echo Number of images detected in install.wim: %INSTALL_IMAGE_COUNT% | "%_tee%" -a "%LOG_FILE%"
 
 :: Step 4: Loop through each image in install and modify registry
+SET "ACF=HKLM\MDL_Test\ControlSet001\Control"
 for /L %%i in (1,1,%INSTALL_IMAGE_COUNT%) do (
 	%_wimlib% extract "WORK\sources\install.wim" %%i \Windows\System32\config\SYSTEM --no-acls --no-attributes --dest-dir="TEMP" | "%_tee%" -a "%LOG_FILE%"
 
@@ -1913,7 +1914,6 @@ for /L %%i in (1,1,%INSTALL_IMAGE_COUNT%) do (
     ECHO Adding DisableWpbtExecution registry to image %%i: | "%_tee%" -a "%LOG_FILE%"
 	ECHO ============================================================= | "%_tee%" -a "%LOG_FILE%"
 	ECHO. | "%_tee%" -a "%LOG_FILE%"
-    SET "ACF=HKLM\MDL_Test\ControlSet001\Control"
     Reg.exe load HKLM\MDL_Test "TEMP\SYSTEM" | "%_tee%" -a "%LOG_FILE%"
     Reg.exe add "%ACF%\Session Manager" /v DisableWpbtExecution /t REG_DWORD /d 1 /f | "%_tee%" -a "%LOG_FILE%"
     Reg.exe unload HKLM\MDL_Test | "%_tee%" -a "%LOG_FILE%"
