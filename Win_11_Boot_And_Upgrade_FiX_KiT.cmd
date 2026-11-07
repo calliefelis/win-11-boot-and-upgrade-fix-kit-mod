@@ -18,7 +18,7 @@ SET "DisableWpbt=0"
 SET "OfflineInsiderEnroll=0"
 
 ::Options to set by dev
-SET "Version=v6.1f"
+SET "Version=v6.1g"
 SET "UFWS_version=v1.4"
 
 REM change wording if needed..
