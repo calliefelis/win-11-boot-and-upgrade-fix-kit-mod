@@ -427,7 +427,7 @@ if exist "Work\sources\install.swm" (
         ECHO ============================================================= | "%_tee%" -a "%LOG_FILE%"
 		ECHO. | "%_tee%" -a "%LOG_FILE%"
 	    call :convertswm Work\sources\%WIMFILE% Work\sources\install.wim
-	    if errorlevel 0 (
+	    if errorlevel 1 (
 		    set WIMFILE=install.wim
 		    set "Split_WIM_Opt=1"
 	    ) else (
@@ -450,8 +450,8 @@ if exist "Work\sources\boot.swm" (
 		ECHO. | "%_tee%" -a "%LOG_FILE%"
 	    set "sourceSwm=Work\sources\%BOOTFILE%"
 	    call :convertswm Work\sources\%BOOTFILE% Work\sources\boot.wim
-	    if errorlevel 0 (
-		    set WIMFILE=boot.wim
+	    if errorlevel 1 (
+		    set BOOTFILE=boot.wim
 		    set "Split_Boot_WIM_Opt=1"
 	    ) else (
 		    ECHO. | "%_tee%" -a "%LOG_FILE%"
@@ -587,7 +587,7 @@ copy /Y "Files\%src_cfg%" "WORK\Sources\inf\setup.cfg" | "%_tee%" -a "%LOG_FILE%
 %_wimlib% update "WORK\sources\boot.wim" 2 --command="add 'Files\%src_cfg%' '\sources\inf\setup.cfg'" | "%_tee%" -a "%LOG_FILE%"
 
 :FiX_OS_Reg
-IF /I "%FiX_OS_Reg%" NEQ "1" GOTO :FiX_Boot_Reg | "%_tee%" -a "%LOG_FILE%"
+IF /I "%FiX_OS_Reg%" NEQ "1" GOTO :FiX_Boot_Reg
 call :Mod_OS_Reg
 IF NOT EXIST "WORK\24H2_Online_Upgrade_Enabler_Script.cmd" (
 ECHO. | "%_tee%" -a "%LOG_FILE%"
@@ -697,7 +697,7 @@ if /i "%fileExt%" == "wim" (
         exit /b 1
     )
     set BOOTFILE=boot.wim
-    set set "Split_Boot_WIM_Opt=1"
+    set "Split_Boot_WIM_Opt=1"
 ) else (
     ECHO. | "%_tee%" -a "%LOG_FILE%"
 	ECHO ============================================================= | "%_tee%" -a "%LOG_FILE%"
@@ -752,7 +752,7 @@ if /i "%fileExt%" == "wim" (
         exit /b 1
     )
     set BOOTFILE=boot.wim
-    set set "Split_Boot_WIM_Opt=1"
+    set "Split_Boot_WIM_Opt=1"
 ) else (
     ECHO. | "%_tee%" -a "%LOG_FILE%"
 	ECHO ============================================================= | "%_tee%" -a "%LOG_FILE%"
@@ -800,7 +800,7 @@ if /i "%fileExt%" == "wim" (
         exit /b 1
     )
     set BOOTFILE=boot.wim
-    set set "Split_Boot_WIM_Opt=1"
+    set "Split_Boot_WIM_Opt=1"
 ) else (
     ECHO. | "%_tee%" -a "%LOG_FILE%"
 	ECHO ============================================================= | "%_tee%" -a "%LOG_FILE%"
@@ -848,7 +848,7 @@ if "%Split_WIM_Opt%"=="0" (
 
 if "%Split_Boot_WIM_Opt%"=="0" (
     if "!Conv_BESD_Opt!"=="1" (
-        call :wimtoesd Work\sources\%BOOTFILE% Work\sources\install.esd
+        call :wimtoesd Work\sources\%BOOTFILE% Work\sources\boot.esd
     )
 ) else if "!Split_Boot_WIM_Opt!"=="1" (
     call :splitbootwim
@@ -901,7 +901,7 @@ if "%Split_WIM_Opt%"=="0" (
 
 if "%Split_Boot_WIM_Opt%"=="0" (
     if "!Conv_BESD_Opt!"=="1" (
-        call :wimtoesd Work\sources\%BOOTFILE% Work\sources\install.esd
+        call :wimtoesd Work\sources\%BOOTFILE% Work\sources\boot.esd
     )
 ) else if "!Split_Boot_WIM_Opt!"=="1" (
     call :splitbootwim
@@ -1227,7 +1227,7 @@ if /i "%fileExt%" == "wim" (
         exit /b 1
     )
     set BOOTFILE=boot.wim
-    set set "Split_Boot_WIM_Opt=1"
+    set "Split_Boot_WIM_Opt=1"
 ) else (
     ECHO. | "%_tee%" -a "%LOG_FILE%"
 	ECHO ============================================================= | "%_tee%" -a "%LOG_FILE%"
