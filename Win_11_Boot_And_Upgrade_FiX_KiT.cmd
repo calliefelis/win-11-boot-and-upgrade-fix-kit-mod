@@ -228,7 +228,7 @@ goto :Loop
 :LogQuit
 echo User quit before script was executed.>> %LOG_FILE%
 if exist "%lockfile%" del /f /q "%lockfile%"
-exit /bs
+exit /b
 
 :Begin
 if %select3%==1 if %select1%==0 if %select2%==0 if %select4%==0 if %select5%==0 (
