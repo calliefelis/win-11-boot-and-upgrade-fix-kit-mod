@@ -6,7 +6,7 @@ Support: https://forums.mydigitallife.net/threads/win-11-boot-and-upgrade-fix-ki
 
 Do not ask for support on this modded version on MDL! Create an issue on GitHub:
 
-https://github.com/CalliopeSystem/win-11-boot-and-upgrade-fix-kit-mod
+https://github.com/calliefelis/win-11-boot-and-upgrade-fix-kit-mod
 
 - The tool provides multiple fixes (including the option to install 11 on a legacy-Bios system).
 - You can select AIO 1 or 2 to choose the recommended combinations.
@@ -152,14 +152,14 @@ Official (support) thread: https://forums.mydigitallife.net/threads/win-11-boot-
 
 Do not ask for support on this modded version on MDL! Create an issue on GitHub:
 
-https://github.com/CalliopeSystem/win-11-boot-and-upgrade-fix-kit-mod
+https://github.com/calliefelis/win-11-boot-and-upgrade-fix-kit-mod
 
 ====================================================================
 
 Changelog:
 
 6.1g
-Fixed errorlevel, set and tee bugs, Kat read it I fixed it
+Fixed boot SWM/ESD handling, errorlevel checks, OS reg skip
 
 6.1fr
 Fixed typo in README
