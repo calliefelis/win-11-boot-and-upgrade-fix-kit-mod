@@ -1,4 +1,4 @@
-Win 11 Boot And Upgrade FiX KiT v6.1f
+Win 11 Boot And Upgrade FiX KiT v6.1g
 
 Crappy Tools By Enthousiast @MDL modded by bloodrain @MDL
 
@@ -157,6 +157,9 @@ https://github.com/CalliopeSystem/win-11-boot-and-upgrade-fix-kit-mod
 ====================================================================
 
 Changelog:
+
+6.1g
+Fixed errorlevel, set and tee bugs, Kat read it I fixed it
 
 6.1fr
 Fixed typo in README
