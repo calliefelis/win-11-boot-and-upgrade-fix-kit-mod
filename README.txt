@@ -159,6 +159,7 @@ https://github.com/calliefelis/win-11-boot-and-upgrade-fix-kit-mod
 Changelog:
 
 6.1g
+DISM fix for running on non-english locale by @GauriSpears
 Fixed boot SWM/ESD handling, errorlevel checks, OS reg skip
 
 6.1fr
